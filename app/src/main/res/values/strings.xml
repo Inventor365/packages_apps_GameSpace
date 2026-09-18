@@ -109,6 +109,8 @@
     <string name="tile_bluetooth">Bluetooth</string>
     <string name="tile_mobile_data">Mobile Data</string>
     <string name="tile_touch_boost">Touch Boost</string>
+    <string name="tile_mistouch">Mistouch Protection</string>
+    <string name="tile_crosshair">Crosshair</string>
     <string name="tile_flashlight">Flashlight</string>
     <string name="tile_dark_mode">Dark Mode</string>
     <string name="tile_location">Location</string>
@@ -176,4 +178,34 @@
     <!-- Pulse bass haptics -->
     <string name="pulse_bass_haptics_disabled_title">Disable pulse bass haptics</string>
     <string name="pulse_bass_haptics_disabled_summary">Automatically disable pulse bass haptics if enabled</string>
+
+    <!-- Music Player -->
+    <string name="music_player_enabled_title">In-game music controller</string>
+    <string name="music_player_enabled_summary">Show media playback controls inside the floating sidebar</string>
+    <string name="no_music_playing">No Music Playing</string>
+    <string name="tap_to_play">Tap to start playing</string>
+
+    <!-- Mistouch Prevention & Edge Detection -->
+    <string name="edge_mistouch_category_title">Mistouch Prevention &amp; Edge Protection</string>
+    <string name="edge_mistouch_title">Edge mistouch prevention</string>
+    <string name="edge_mistouch_summary">Block accidental palm and touch inputs on screen edges while playing</string>
+    <string name="edge_mistouch_deadzone_title">Edge deadzone width</string>
+    <string name="edge_mistouch_deadzone_summary">Width of the touch rejection area along screen borders</string>
+    <string name="edge_mistouch_size_small">Small (12 dp)</string>
+    <string name="edge_mistouch_size_medium">Medium (20 dp) - Recommended</string>
+    <string name="edge_mistouch_size_large">Large (32 dp)</string>
+    <string name="edge_mistouch_size_xlarge">Extra Large (44 dp)</string>
+    <string name="edge_mistouch_corners_title">Protect corners</string>
+    <string name="edge_mistouch_corners_summary">Extend mistouch deadzone to screen corners for palm rest rejection</string>
+    <string name="edge_mistouch_feedback_title">Mistouch visual feedback</string>
+    <string name="edge_mistouch_feedback_summary">Show a subtle indicator when an accidental edge touch is blocked</string>
+
+    <!-- Touch Boost -->
+    <string name="touch_boost_title">Touch Boost &amp; High Polling Rate</string>
+    <string name="touch_boost_summary">Increase touch sampling rate and responsiveness while in-game</string>
+
+    <!-- Custom Crosshair -->
+    <string name="crosshair_category_title">Custom Crosshair</string>
+    <string name="crosshair_enabled_title">Enable crosshair overlay</string>
+    <string name="crosshair_enabled_summary">Display a custom aiming reticle on screen for shooter games</string>
  </resources>

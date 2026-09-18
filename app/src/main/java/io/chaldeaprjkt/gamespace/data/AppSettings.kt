@@ -19,6 +19,7 @@ package io.chaldeaprjkt.gamespace.data
 
 import android.app.Service
 import android.content.Context
+import android.content.SharedPreferences
 import android.provider.Settings
 import android.view.WindowManager
 import androidx.preference.PreferenceManager
@@ -30,6 +31,21 @@ class AppSettings @Inject constructor(private val context: Context) {
 
     private val db by lazy { PreferenceManager.getDefaultSharedPreferences(context) }
     private val wm by lazy { context.getSystemService(Service.WINDOW_SERVICE) as WindowManager }
+
+    fun registerListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        db.registerOnSharedPreferenceChangeListener(listener)
+    }
+
+    fun unregisterListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        db.unregisterOnSharedPreferenceChangeListener(listener)
+    }
+
+    var activeGamePackage: String? = null
+
+    private fun getPrefKey(baseKey: String): String {
+        val pkg = activeGamePackage
+        return if (pkg != null) "${pkg}_${baseKey}" else baseKey
+    }
 
     var x
         get() = db.getInt("offset_x", wm.maximumWindowMetrics.bounds.width() / 2)
@@ -107,6 +123,58 @@ class AppSettings @Inject constructor(private val context: Context) {
         get() = db.getBoolean(KEY_PULSE_BASS_DISABLE, true)
         set(it) = db.edit().putBoolean(KEY_PULSE_BASS_DISABLE, it).apply()
 
+    var crosshairEnabled: Boolean
+        get() = db.getBoolean(getPrefKey(KEY_CROSSHAIR_ENABLED), db.getBoolean(KEY_CROSSHAIR_ENABLED, false))
+        set(value) = db.edit().putBoolean(getPrefKey(KEY_CROSSHAIR_ENABLED), value).apply()
+
+    var crosshairStyle: Int
+        get() = db.getInt(getPrefKey(KEY_CROSSHAIR_STYLE), db.getInt(KEY_CROSSHAIR_STYLE, 1))
+        set(value) = db.edit().putInt(getPrefKey(KEY_CROSSHAIR_STYLE), value).apply()
+
+    var crosshairSize: Int
+        get() = db.getInt(getPrefKey(KEY_CROSSHAIR_SIZE), db.getInt(KEY_CROSSHAIR_SIZE, 36))
+        set(value) = db.edit().putInt(getPrefKey(KEY_CROSSHAIR_SIZE), value).apply()
+
+    var crosshairColor: Int
+        get() = db.getInt(getPrefKey(KEY_CROSSHAIR_COLOR), db.getInt(KEY_CROSSHAIR_COLOR, 0xFF00FF00.toInt()))
+        set(value) = db.edit().putInt(getPrefKey(KEY_CROSSHAIR_COLOR), value).apply()
+
+    var crosshairOpacity: Float
+        get() = db.getFloat(getPrefKey(KEY_CROSSHAIR_OPACITY), db.getFloat(KEY_CROSSHAIR_OPACITY, 1f))
+        set(value) = db.edit().putFloat(getPrefKey(KEY_CROSSHAIR_OPACITY), value).apply()
+
+    var crosshairOffsetX: Int
+        get() = db.getInt(getPrefKey(KEY_CROSSHAIR_OFFSET_X), db.getInt(KEY_CROSSHAIR_OFFSET_X, 0))
+        set(value) = db.edit().putInt(getPrefKey(KEY_CROSSHAIR_OFFSET_X), value).apply()
+
+    var crosshairOffsetY: Int
+        get() = db.getInt(getPrefKey(KEY_CROSSHAIR_OFFSET_Y), db.getInt(KEY_CROSSHAIR_OFFSET_Y, 0))
+        set(value) = db.edit().putInt(getPrefKey(KEY_CROSSHAIR_OFFSET_Y), value).apply()
+
+    var musicPlayerEnabled: Boolean
+        get() = db.getBoolean(KEY_MUSIC_PLAYER_ENABLED, true)
+        set(value) = db.edit().putBoolean(KEY_MUSIC_PLAYER_ENABLED, value).apply()
+
+    var edgeMistouchEnabled: Boolean
+        get() = db.getBoolean(KEY_EDGE_MISTOUCH_ENABLED, true)
+        set(value) = db.edit().putBoolean(KEY_EDGE_MISTOUCH_ENABLED, value).apply()
+
+    var edgeMistouchSize: Int
+        get() = db.getString(KEY_EDGE_MISTOUCH_SIZE, "20")?.toIntOrNull() ?: 20
+        set(value) = db.edit().putString(KEY_EDGE_MISTOUCH_SIZE, value.toString()).apply()
+
+    var edgeMistouchCorners: Boolean
+        get() = db.getBoolean(KEY_EDGE_MISTOUCH_CORNERS, true)
+        set(value) = db.edit().putBoolean(KEY_EDGE_MISTOUCH_CORNERS, value).apply()
+
+    var edgeMistouchFeedback: Boolean
+        get() = db.getBoolean(KEY_EDGE_MISTOUCH_FEEDBACK, false)
+        set(value) = db.edit().putBoolean(KEY_EDGE_MISTOUCH_FEEDBACK, value).apply()
+
+    var touchBoostEnabled: Boolean
+        get() = db.getBoolean(KEY_TOUCH_BOOST_ENABLED, true)
+        set(value) = db.edit().putBoolean(KEY_TOUCH_BOOST_ENABLED, value).apply()
+
     companion object {
         const val KEY_AUTO_BRIGHTNESS_DISABLE = "gamespace_auto_brightness_disabled"
         const val KEY_3SCREENSHOT_DISABLE = "gamespace_tfgesture_disabled"
@@ -124,5 +192,18 @@ class AppSettings @Inject constructor(private val context: Context) {
         const val KEY_ICON_IDLE_ALPHA = "gamespace_icon_idle_alpha"
         const val KEY_AUTO_DND = "gamespace_auto_dnd"
         const val KEY_PULSE_BASS_DISABLE = "gamespace_pulse_bass_haptics_disabled"
+        const val KEY_CROSSHAIR_ENABLED = "gamespace_crosshair_enabled"
+        const val KEY_CROSSHAIR_STYLE = "gamespace_crosshair_style"
+        const val KEY_CROSSHAIR_SIZE = "gamespace_crosshair_size"
+        const val KEY_CROSSHAIR_COLOR = "gamespace_crosshair_color"
+        const val KEY_CROSSHAIR_OPACITY = "gamespace_crosshair_opacity"
+        const val KEY_CROSSHAIR_OFFSET_X = "gamespace_crosshair_offset_x"
+        const val KEY_CROSSHAIR_OFFSET_Y = "gamespace_crosshair_offset_y"
+        const val KEY_MUSIC_PLAYER_ENABLED = "gamespace_music_player_enabled"
+        const val KEY_EDGE_MISTOUCH_ENABLED = "gamespace_edge_mistouch_enabled"
+        const val KEY_EDGE_MISTOUCH_SIZE = "gamespace_edge_mistouch_size"
+        const val KEY_EDGE_MISTOUCH_CORNERS = "gamespace_edge_mistouch_corners"
+        const val KEY_EDGE_MISTOUCH_FEEDBACK = "gamespace_edge_mistouch_feedback"
+        const val KEY_TOUCH_BOOST_ENABLED = "gamespace_touch_boost_enabled"
     }
 }

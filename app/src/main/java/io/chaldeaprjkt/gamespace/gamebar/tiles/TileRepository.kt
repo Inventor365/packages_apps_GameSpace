@@ -33,6 +33,7 @@ import com.android.axion.platform.AxPlatformClient
 import io.chaldeaprjkt.gamespace.R
 import io.chaldeaprjkt.gamespace.data.AppSettings
 import io.chaldeaprjkt.gamespace.data.SystemSettings
+import lineageos.hardware.LineageHardwareManager
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -49,7 +50,7 @@ class ToggleableTile(
     override val id: String,
     override var label: String,
     override val icon: Int,
-    private val state: MutableState<Boolean>,
+    val state: MutableState<Boolean>,
     private val setter: (Boolean) -> Unit,
 ) : TileAction {
     override val isEnabled: Boolean get() = state.value
@@ -432,6 +433,26 @@ class TileRepository @Inject constructor(
         )
 
         add(
+            ToggleableTile(
+                id = "crosshair",
+                label = context.getString(R.string.tile_crosshair),
+                icon = R.drawable.materialsymbols_ic_adjust_rounded_filled,
+                state = mutableStateOf(appSettings.crosshairEnabled),
+                setter = { appSettings.crosshairEnabled = it }
+            )
+        )
+
+        add(
+            ToggleableTile(
+                id = "mistouch",
+                label = context.getString(R.string.tile_mistouch),
+                icon = R.drawable.materialsymbols_ic_touch_app_rounded_filled,
+                state = mutableStateOf(appSettings.edgeMistouchEnabled),
+                setter = { appSettings.edgeMistouchEnabled = it }
+            )
+        )
+
+        add(
             FixedActionTile(
                 id = "boost_memory",
                 label = context.getString(R.string.tile_boost_memory),
@@ -456,9 +477,15 @@ class TileRepository @Inject constructor(
             )
         )
 
-        if (SystemProperties.getBoolean("persist.sys.target_supports_touch_boost", false)) {
+        val hardwareManager = runCatching { LineageHardwareManager.getInstance(context) }.getOrNull()
+        val supportsTouchBoost = SystemProperties.getBoolean("persist.sys.target_supports_touch_boost", false)
+                || SystemProperties.getBoolean("persist.sys.ax_touch_boost", false)
+                || hardwareManager?.isSupported(LineageHardwareManager.FEATURE_HIGH_TOUCH_POLLING_RATE) == true
+
+        if (supportsTouchBoost) {
             val touchBoostState = mutableStateOf(
                 SystemProperties.getInt("persist.sys.touchboost_enable", 0) == 1
+                        || hardwareManager?.get(LineageHardwareManager.FEATURE_HIGH_TOUCH_POLLING_RATE) == true
             )
             add(
                 ToggleableTile(
@@ -469,6 +496,7 @@ class TileRepository @Inject constructor(
                     setter = {
                         val newVal = if (it) 1 else 0
                         SystemProperties.set("persist.sys.touchboost_enable", "$newVal")
+                        hardwareManager?.set(LineageHardwareManager.FEATURE_HIGH_TOUCH_POLLING_RATE, it)
                         touchBoostState.value = it
                     }
                 )

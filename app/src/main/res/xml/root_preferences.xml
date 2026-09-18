@@ -82,6 +82,18 @@
             android:summary="@string/call_overlay_enabled_summary"
             android:defaultValue="true" />
 
+        <SwitchPreferenceCompat
+            android:key="gamespace_music_player_enabled"
+            android:title="@string/music_player_enabled_title"
+            android:summary="@string/music_player_enabled_summary"
+            android:defaultValue="true" />
+
+        <SwitchPreferenceCompat
+            android:key="gamespace_touch_boost_enabled"
+            android:title="@string/touch_boost_title"
+            android:summary="@string/touch_boost_summary"
+            android:defaultValue="true" />
+
         <ListPreference
             android:key="gamespace_calls_mode"
             android:title="@string/in_game_calls_title"
@@ -104,12 +116,6 @@
             android:summary="@string/three_screenshot_disabled_summary"
             android:defaultValue="false" />
 
-        <SwitchPreferenceCompat
-            android:key="gamespace_lock_gesture"
-            android:title="@string/lock_gesture_title"
-            android:summary="@string/lock_gesture_summary"
-            android:defaultValue="false" />
-
         <com.crdroid.settings.preferences.SystemSettingSwitchPreference
             android:key="bypass_charge_enabled"
             android:title="@string/bypass_charge_enabled_title"
@@ -123,6 +129,56 @@
             android:max="100"
             app:min="5"
             app:units="%" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="mistouch_prevention_category"
+        android:title="@string/edge_mistouch_category_title">
+
+        <SwitchPreferenceCompat
+            android:key="gamespace_edge_mistouch_enabled"
+            android:title="@string/edge_mistouch_title"
+            android:summary="@string/edge_mistouch_summary"
+            android:defaultValue="true" />
+
+        <ListPreference
+            android:key="gamespace_edge_mistouch_size"
+            android:title="@string/edge_mistouch_deadzone_title"
+            android:summary="%s"
+            android:entries="@array/edge_mistouch_size_entries"
+            android:entryValues="@array/edge_mistouch_size_values"
+            android:defaultValue="20" />
+
+        <SwitchPreferenceCompat
+            android:key="gamespace_edge_mistouch_corners"
+            android:title="@string/edge_mistouch_corners_title"
+            android:summary="@string/edge_mistouch_corners_summary"
+            android:defaultValue="true" />
+
+        <SwitchPreferenceCompat
+            android:key="gamespace_edge_mistouch_feedback"
+            android:title="@string/edge_mistouch_feedback_title"
+            android:summary="@string/edge_mistouch_feedback_summary"
+            android:defaultValue="false" />
+
+        <SwitchPreferenceCompat
+            android:key="gamespace_lock_gesture"
+            android:title="@string/lock_gesture_title"
+            android:summary="@string/lock_gesture_summary"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="crosshair_category"
+        android:title="@string/crosshair_category_title">
+
+        <SwitchPreferenceCompat
+            android:key="gamespace_crosshair_enabled"
+            android:title="@string/crosshair_enabled_title"
+            android:summary="@string/crosshair_enabled_summary"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 

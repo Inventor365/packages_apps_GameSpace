@@ -56,4 +56,18 @@
         <item>@string/game_mode_performance</item>
         <item>@string/game_mode_battery</item>
     </string-array>
+
+    <string-array name="edge_mistouch_size_entries">
+        <item>@string/edge_mistouch_size_small</item>
+        <item>@string/edge_mistouch_size_medium</item>
+        <item>@string/edge_mistouch_size_large</item>
+        <item>@string/edge_mistouch_size_xlarge</item>
+    </string-array>
+
+    <string-array name="edge_mistouch_size_values" translatable="false">
+        <item>12</item>
+        <item>20</item>
+        <item>32</item>
+        <item>44</item>
+    </string-array>
 </resources>
