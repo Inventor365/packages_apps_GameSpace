@@ -229,10 +229,13 @@ class SessionService : Hilt_SessionService() {
         sidebar.onGameStart(packageName)
 
         callListener.init()
+
+        notifyPowerProfile(packageName, true)
     }
 
     private fun stopGameSession() {
         Log.i(TAG, "Stopping game session")
+        currentPackage?.let { notifyPowerProfile(it, false) }
 
         appSettings.unregisterListener(preferenceListener)
         appSettings.activeGamePackage = null
@@ -252,6 +255,27 @@ class SessionService : Hilt_SessionService() {
         restoreAutoDnd()
 
         currentPackage = null
+    }
+
+    /**
+     * Tells the device's power profiles (XiaomiParts) that a listed game is in
+     * front, so every profile gives it the same treatment: PowerHAL GAME hint,
+     * the game's thermal scene, 120Hz lock and high touch sampling. Without
+     * this only AUTO noticed games, and Gaming/Balanced behaved differently
+     * from AUTO for the same match.
+     */
+    private fun notifyPowerProfile(packageName: String, active: Boolean) {
+        try {
+            val intent = Intent(ACTION_GAME_SESSION).apply {
+                setPackage(PARTS_PACKAGE)
+                putExtra(EXTRA_PACKAGE_NAME, packageName)
+                putExtra(EXTRA_ACTIVE, active)
+                addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+            }
+            sendBroadcastAsUser(intent, UserHandle.SYSTEM)
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not notify power profiles", e)
+        }
     }
 
     private fun applyAutoDnd() {
@@ -301,6 +325,9 @@ class SessionService : Hilt_SessionService() {
         const val ACTION_START = "game_start"
         const val ACTION_STOP = "game_stop"
         const val EXTRA_PACKAGE_NAME = "package_name"
+        const val EXTRA_ACTIVE = "active"
+        const val ACTION_GAME_SESSION = "org.lineageos.settings.power.action.GAME_SESSION"
+        const val PARTS_PACKAGE = "org.lineageos.settings"
 
         fun start(context: Context, app: String) {
             if (!context.isServiceRunning(SessionService::class.java)) {

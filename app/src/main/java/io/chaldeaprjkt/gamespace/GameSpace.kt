@@ -21,6 +21,7 @@ import android.content.Intent
 import android.os.UserHandle
 import android.util.Log
 import dagger.hilt.android.HiltAndroidApp
+import io.chaldeaprjkt.gamespace.data.GameAutoDetector
 import io.chaldeaprjkt.gamespace.gamebar.GameSpaceService
 
 @HiltAndroidApp(Application::class)
@@ -32,6 +33,9 @@ class GameSpace : Hilt_GameSpace() {
         super.onCreate()
         Log.d(TAG, "Application created")
         startGameSpaceService()
+        // Persistent app: this runs once per boot. Pick up games that were
+        // installed before auto detection existed or never declared a category.
+        GameAutoDetector.scanAsync(this)
     }
 
     private fun startGameSpaceService() {

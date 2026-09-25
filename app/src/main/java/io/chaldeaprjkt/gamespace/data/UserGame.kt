@@ -18,7 +18,11 @@ package io.chaldeaprjkt.gamespace.data
 import android.app.GameManager
 
 
-data class UserGame(val packageName: String, val mode: Int = GameManager.GAME_MODE_STANDARD) {
+// Entries without an explicit mode (the framework's install-time auto add
+// writes just the package) run in Performance: a game in this list is there to
+// be played, and Performance is what enables the GAME_LOADING boost and the
+// intervention GameSpace sets up for it.
+data class UserGame(val packageName: String, val mode: Int = GameManager.GAME_MODE_PERFORMANCE) {
     override fun toString(): String = "$packageName=$mode"
 
     companion object {

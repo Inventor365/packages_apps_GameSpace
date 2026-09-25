@@ -147,7 +147,7 @@ class GameModeUtils @Inject constructor(private val context: Context) {
         )
 
     companion object {
-        const val defaultPreferredMode = GameManager.GAME_MODE_STANDARD
+        const val defaultPreferredMode = GameManager.GAME_MODE_PERFORMANCE
         const val ACTION_ANGLE_FOR_ANDROID = "android.app.action.ANGLE_FOR_ANDROID"
         private const val DRIVER_SELECTION_PACKAGES = "angle_gl_driver_selection_pkgs"
         private const val DRIVER_SELECTION_VALUES = "angle_gl_driver_selection_values"

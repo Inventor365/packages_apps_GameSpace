@@ -15,4 +15,61 @@
   -->
 
 <resources>
+    <!-- Launchable apps treated as games by auto detection even when their
+         developer never declared android:appCategory="game". -->
+    <string-array name="config_gamespace_known_games" translatable="false">
+        <item>com.pubg.imobile</item>
+        <item>com.tencent.ig</item>
+        <item>com.pubg.krmobile</item>
+        <item>com.vng.pubgmobile</item>
+        <item>com.rekoo.pubgm</item>
+        <item>com.pubg.newstate</item>
+        <item>com.tencent.tmgp.pubgmhd</item>
+        <item>com.activision.callofduty.shooter</item>
+        <item>com.activision.callofduty.warzone</item>
+        <item>com.garena.game.codm</item>
+        <item>com.tencent.tmgp.cod</item>
+        <item>com.dts.freefireth</item>
+        <item>com.dts.freefiremax</item>
+        <item>com.epicgames.fortnite</item>
+        <item>com.mobile.legends</item>
+        <item>com.tencent.tmgp.sgame</item>
+        <item>com.levelinfinite.sgameGlobal</item>
+        <item>com.riotgames.league.wildrift</item>
+        <item>com.riotgames.league.teamfighttactics</item>
+        <item>com.supercell.brawlstars</item>
+        <item>com.supercell.clashroyale</item>
+        <item>com.supercell.clashofclans</item>
+        <item>com.ea.gp.fifamobile</item>
+        <item>com.ea.gp.apexlegendsmobilefps</item>
+        <item>com.roblox.client</item>
+        <item>com.mojang.minecraftpe</item>
+        <item>com.innersloth.spacemafia</item>
+        <item>com.kiloo.subwaysurf</item>
+        <item>com.gameloft.android.ANMP.GloftA9HM</item>
+        <item>com.madfingergames.legends</item>
+        <item>com.nexon.bluearchive</item>
+        <item>com.YoStarEN.Arknights</item>
+        <item>com.proximabeta.nikke</item>
+        <item>jp.konami.pesam</item>
+    </string-array>
+
+    <!-- Package prefixes of publishers that only ship games. -->
+    <string-array name="config_gamespace_known_game_prefixes" translatable="false">
+        <item>com.miHoYo.</item>
+        <item>com.HoYoverse.</item>
+        <item>com.kurogame.</item>
+        <item>com.garena.game.</item>
+        <item>com.gameloft.</item>
+        <item>com.supercell.</item>
+        <item>com.ea.game.</item>
+        <item>com.ea.gp.</item>
+        <item>com.kiloo.</item>
+        <item>com.nexon.</item>
+        <item>com.levelinfinite.</item>
+        <item>com.proximabeta.</item>
+        <item>com.feralinteractive.</item>
+        <item>com.rockstargames.</item>
+        <item>com.carxtech.</item>
+    </string-array>
 </resources>

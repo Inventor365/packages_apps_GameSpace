@@ -17,10 +17,13 @@
 package io.chaldeaprjkt.gamespace.preferences
 
 import android.app.Activity
+import android.app.GameManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.os.Handler
+import android.os.Looper
 import android.os.UserHandle
 import android.provider.Settings
 import android.util.AttributeSet
@@ -32,6 +35,7 @@ import androidx.preference.PreferenceViewHolder
 import androidx.preference.SwitchPreferenceCompat
 
 import io.chaldeaprjkt.gamespace.R
+import io.chaldeaprjkt.gamespace.data.GameAutoDetector
 import io.chaldeaprjkt.gamespace.data.GameConfig
 import io.chaldeaprjkt.gamespace.data.SystemSettings
 import io.chaldeaprjkt.gamespace.data.UserGame
@@ -174,7 +178,7 @@ class AppListPreferences @JvmOverloads constructor(context: Context, attrs: Attr
         if (denied.remove(packageName)) writeDeniedList(denied)
 
         if (apps.none { it.packageName == packageName }) {
-            apps.add(UserGame(packageName))
+            apps.add(UserGame(packageName, GameManager.GAME_MODE_PERFORMANCE))
         }
         systemSettings.userGames = apps
         gameModeUtils.setIntervention(packageName, GameConfig.ModeBuilder.build())
@@ -197,6 +201,10 @@ class AppListPreferences @JvmOverloads constructor(context: Context, attrs: Attr
     override fun onAttached() {
         super.onAttached()
         updateAppList()
+        // Catch anything installed since boot that auto detection recognises.
+        GameAutoDetector.scanAsync(context) {
+            Handler(Looper.getMainLooper()).post { if (isShown) updateAppList() }
+        }
     }
 
     override fun onPreferenceClick(preference: Preference): Boolean {

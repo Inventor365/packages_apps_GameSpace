@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.UserHandle
 import android.util.Log
+import io.chaldeaprjkt.gamespace.data.GameAutoDetector
 import io.chaldeaprjkt.gamespace.gamebar.GameSpaceService
 
 class BootCompletedReceiver : BroadcastReceiver() {
@@ -33,6 +34,7 @@ class BootCompletedReceiver : BroadcastReceiver() {
                 val serviceIntent = Intent(context, GameSpaceService::class.java)
                 context.startServiceAsUser(serviceIntent, UserHandle.CURRENT)
                 Log.i(TAG, "GameSpaceService started after boot")
+                GameAutoDetector.scanAsync(context)
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to start GameSpaceService after boot", e)
             }
